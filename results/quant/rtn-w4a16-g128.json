@@ -1,0 +1,41 @@
+{
+  "method": "rtn",
+  "name": "rtn-w4a16-g128",
+  "model_id": "Qwen/Qwen3.5-4B",
+  "model_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "settings": {
+    "name": "rtn-w4a16-g128",
+    "scheme": "W4A16"
+  },
+  "group_size": 128,
+  "ignore": [
+    "re:.*visual.*",
+    "re:.*lm_head",
+    "re:.*embed_tokens$",
+    "re:.*linear_attn\\.in_proj_a$",
+    "re:.*linear_attn\\.in_proj_b$"
+  ],
+  "calibration": null,
+  "quant_seconds": 34.8,
+  "peak_gpu_alloc_gib": 0.15,
+  "load_seconds": 6.8,
+  "calib_build_seconds": 0.0,
+  "recipe": "config_groups=None targets=['Linear'] ignore=['re:.*visual.*', 're:.*lm_head', 're:.*embed_tokens$', 're:.*linear_attn\\\\.in_proj_a$', 're:.*linear_attn\\\\.in_proj_b$'] scheme='W4A16' kv_cache_scheme=None weight_observer=None input_observer=None output_observer=None observer=None bypass_divisibility_checks=False requires_calibration_data=False index=None group=None start=None end=None update=None initialized_=True finalized_=True started_=True ended_=True",
+  "save_seconds": 28.2,
+  "checkpoint_gib": 3.751,
+  "versions": {
+    "python": "3.12.14",
+    "machine": "aarch64",
+    "host": "gx10-a4ea",
+    "torch": "2.13.0",
+    "transformers": "5.17.0",
+    "llmcompressor": "0.14.0",
+    "compressed-tensors": "0.19.0",
+    "auto-round": "0.15.1",
+    "hqq": "0.2.8.post1",
+    "accelerate": "1.15.0",
+    "datasets": "5.0.1",
+    "gpu": "NVIDIA GB10",
+    "cuda": "13.0"
+  }
+}

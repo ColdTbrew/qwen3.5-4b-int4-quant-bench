@@ -78,32 +78,6 @@ def rtn_asym_err(W: torch.Tensor, group: int) -> float:
     return ((Wq - z) * s - Wg).abs().mean().item()
 
 
-def original_weight_reader(cfg):
-    """name -> original BF16 weight tensor (CPU) straight from the HF snapshot."""
-    import json as _json
-    from pathlib import Path
-
-    from huggingface_hub import snapshot_download
-    from safetensors import safe_open
-
-    snap = Path(snapshot_download(cfg["model_id"], revision=cfg["_resolved_revision"]))
-    idx = _json.loads((snap / "model.safetensors.index.json").read_text())["weight_map"]
-    handles = {}
-
-    def read(name):
-        key = name + ".weight"
-        if key not in idx:
-            return None
-        f = idx[key]
-        if f not in handles:
-            handles[f] = safe_open(str(snap / f), framework="pt")
-        read.hits += 1
-        return handles[f].get_tensor(key)
-
-    read.hits = 0
-    return read
-
-
 def main():
     args, cfg = prepare("hqq", __doc__)
     m = cfg["methods"]["hqq"]
@@ -119,23 +93,14 @@ def main():
     # 1) attach W4A16_ASYM quantization params (min-max init) to every target Linear
     t_init = run_oneshot(model, recipe, tokenizer, None)
 
-    # 2) replace scale / zero-point with the HQQ optimum. The HQQ solver always
-    #    starts from the ORIGINAL BF16 weights read from the checkpoint files, so
-    #    it is independent of whatever oneshot did to module.weight.
-    orig = original_weight_reader(cfg)
-    n_diff = 0
+    # 2) replace scale / zero-point with the HQQ optimum
     errs = {"rtn_asym": [], "hqq_float_zero": [], "hqq_int_zero": []}
     n = 0
     with Timer() as t_hqq:
         for name, mod in model.named_modules():
             if not (hasattr(mod, "weight_scale") and hasattr(mod, "weight_zero_point")):
                 continue
-            W = orig(name)
-            if W is None:
-                W = mod.weight.detach()
-            elif not torch.equal(W, mod.weight.detach().to(W.dtype).cpu()):
-                n_diff += 1
-            W = W.to("cuda", torch.float32)
+            W = mod.weight.detach().to("cuda", torch.float32)
             scale, zero, e_int = hqq_quantize(W, g, m["iters"], m["lp_norm"], m["beta"], m["kappa"], m["integer_zero"])
             if n % 16 == 0:  # diagnostic on a subset of layers
                 errs["rtn_asym"].append(rtn_asym_err(W, g))
@@ -147,8 +112,7 @@ def main():
             ws.data.copy_(scale.to(ws.dtype).to(ws.device))
             wz.data.copy_((zero - 8).to(wz.dtype).to(wz.device))  # uint4 zero -> signed int4 zero
             n += 1
-    print(f"HQQ optimised {n} Linear layers in {t_hqq.seconds:.1f}s; "
-          f"{orig.hits} read from checkpoint, {n_diff} differed from in-memory weight")
+    print(f"HQQ optimised {n} Linear layers in {t_hqq.seconds:.1f}s")
     diag = {k: (sum(v) / len(v) if v else None) for k, v in errs.items()}
     print("mean |W-W_hat| on sampled layers:", diag)
 

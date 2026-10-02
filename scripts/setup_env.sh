@@ -10,9 +10,9 @@ PY=3.12
 
 uv venv --python $PY .venv-eval
 uv pip install --python .venv-eval/bin/python \
-  "vllm==0.30.0" "lm-eval[vllm]==0.4.13" "datasets>=3" pandas matplotlib pyyaml aiohttp
+  "vllm==0.30.0" "lm-eval[vllm]==0.4.13" "datasets>=3" pandas matplotlib pyyaml aiohttp ninja
 
 uv venv --allow-existing --python $PY .venv-quant
 uv pip install --python .venv-quant/bin/python \
-  "torch==2.13.0" "llmcompressor==0.14.0" "auto-round==0.15.1" "hqq==0.2.8.post1" \
+  "torch==2.13.0" "llmcompressor==0.14.0" "auto-round==0.15.1" "hqq==0.2.8.post1" "torchvision==0.28.0" \
   "datasets>=3" pyyaml accelerate
