@@ -35,7 +35,9 @@ methods:
   gptq:
     name: gptq-w4a16-g128-actorder
     scheme: W4A16
-    actorder: group          # == AutoGPTQ desc_act=True (columns processed by descending H diag)
+    actorder: static         # act-order ON: columns processed in descending Hessian-diag order, groups kept
+                             # contiguous (== AutoGPTQ desc_act=True + static_groups=True; no g_idx at inference).
+                             # llm-compressor 0.14 removed the g_idx ("group") variant.
     dampening_frac: 0.01
     block_size: 128
   awq:

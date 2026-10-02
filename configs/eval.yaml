@@ -17,7 +17,7 @@ ppl:
 lm_eval:
   # Plain few-shot prompting (no chat template, no thinking) for all models.
   tasks:
-    mmlu:          {num_fewshot: 5, limit: null}
+    mmlu:          {num_fewshot: 0, limit: null}   # 0-shot: 5-shot prompt-logprob scoring over the 248k vocab was ~5 h/model on GB10
     gsm8k:         {num_fewshot: 5, limit: null}
     arc_challenge: {num_fewshot: 0, limit: null}
     hellaswag:     {num_fewshot: 0, limit: null}
