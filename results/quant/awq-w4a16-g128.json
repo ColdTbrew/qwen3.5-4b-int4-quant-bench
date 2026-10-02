@@ -1,0 +1,50 @@
+{
+  "method": "awq",
+  "name": "awq-w4a16-g128",
+  "model_id": "Qwen/Qwen3.5-4B",
+  "model_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "settings": {
+    "name": "awq-w4a16-g128",
+    "scheme": "W4A16_ASYM",
+    "duo_scaling": true,
+    "n_grid": 20
+  },
+  "group_size": 128,
+  "ignore": [
+    "re:.*visual.*",
+    "re:.*lm_head",
+    "re:.*embed_tokens$",
+    "re:.*linear_attn\\.in_proj_a$",
+    "re:.*linear_attn\\.in_proj_b$"
+  ],
+  "calibration": {
+    "dataset": "NeelNanda/pile-10k",
+    "split": "train",
+    "num_samples": 256,
+    "seq_len": 2048,
+    "seed": 0,
+    "packing": "concat-and-chunk"
+  },
+  "quant_seconds": 5089.0,
+  "peak_gpu_alloc_gib": 55.19,
+  "load_seconds": 6.7,
+  "calib_build_seconds": 2.7,
+  "recipe": "[AWQModifier(requires_calibration_data=True, index=None, group=None, start=None, end=None, update=None, initialized_=True, finalized_=True, started_=True, ended_=True, mappings=[AWQMapping(smooth_layer='re:.*layers\\\\.(3|7|11|15|19|23|27|31)\\\\.input_layernorm$', balance_layers=['re:.*self_attn.q_proj$', 're:.*self_attn.k_proj$', 're:.*self_attn.v_proj$'], activation_hook_target=None), AWQMapping(smooth_layer='re:.*layers\\\\.(0|1|2|4|5|6|8|9|10|12|13|14|16|17|18|20|21|22|24|25|26|28|29|30)\\\\.input_layernorm$', balance_layers=['re:.*linear_attn.in_proj_qkv$', 're:.*linear_attn.in_proj_z$', 're:.*linear_attn.in_proj_b$', 're:.*linear_attn.in_proj_a$'], activation_hook_target=None), AWQMapping(smooth_layer='re:.*post_attention_layernorm$', balance_layers=['re:.*gate_proj$', 're:.*up_proj$'], activation_hook_target=None), AWQMapping(smooth_layer='re:.*up_proj$', balance_layers=['re:.*down_proj$'], activation_hook_target=None)], offload_device=None, duo_scaling=True, n_grid=20), QuantizationModifier(config_groups=None, targets=['Linear'], ignore=['re:.*visual.*', 're:.*lm_head', 're:.*embed_tokens$', 're:.*linear_attn\\\\.in_proj_a$', 're:.*linear_attn\\\\.in_proj_b$'], scheme='W4A16_ASYM', kv_cache_scheme=None, weight_observer=None, input_observer=None, output_observer=None, observer=None, bypass_divisibility_checks=False, requires_calibration_data=False, index=None, group=None, start=None, end=None, update=None, initialized_=True, finalized_=True, started_=True, ended_=True)]",
+  "save_seconds": 14.1,
+  "checkpoint_gib": 3.764,
+  "versions": {
+    "python": "3.12.14",
+    "machine": "aarch64",
+    "host": "gx10-a4ea",
+    "torch": "2.13.0",
+    "transformers": "5.17.0",
+    "llmcompressor": "0.14.0",
+    "compressed-tensors": "0.19.0",
+    "auto-round": "0.15.1",
+    "hqq": "0.2.8.post1",
+    "accelerate": "1.15.0",
+    "datasets": "5.0.1",
+    "gpu": "NVIDIA GB10",
+    "cuda": "13.0"
+  }
+}
