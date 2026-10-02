@@ -1,0 +1,9 @@
+# Checkpoints evaluated (paths relative to repo root, or HF ids).
+models:
+  - {name: bf16,                       label: BF16,            path: Qwen/Qwen3.5-4B,                    bits: 16}
+  - {name: int8-w8a8-smoothquant-gptq, label: INT8 W8A8 (SQ+GPTQ), path: models/int8-w8a8-smoothquant-gptq, bits: 8}
+  - {name: rtn-w4a16-g128,             label: RTN,             path: models/rtn-w4a16-g128,              bits: 4}
+  - {name: gptq-w4a16-g128-actorder,   label: GPTQ (act-order), path: models/gptq-w4a16-g128-actorder,   bits: 4}
+  - {name: awq-w4a16-g128,             label: AWQ,             path: models/awq-w4a16-g128,              bits: 4}
+  - {name: hqq-w4a16-g128,             label: HQQ,             path: models/hqq-w4a16-g128,              bits: 4}
+  - {name: autoround-w4a16-g128,       label: AutoRound,       path: models/autoround-w4a16-g128,        bits: 4}

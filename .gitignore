@@ -1,0 +1,16 @@
+# weights / checkpoints / caches are never committed
+models/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.gguf
+.venv*/
+__pycache__/
+*.pyc
+logs/*.log
+logs/**/*.log
+results/raw/**/samples_*.jsonl
+.cache/
+*.tar
+*.bundle

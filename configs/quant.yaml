@@ -1,0 +1,62 @@
+# Shared quantization settings. Every calibration-based method uses exactly
+# the same calibration tokens (built by quant/common.py::build_calibration).
+model_id: Qwen/Qwen3.5-4B
+model_revision: main          # resolved commit sha is written to each quant_meta.json
+output_root: models           # gitignored; checkpoints land in models/<name>
+
+calibration:
+  dataset: NeelNanda/pile-10k  # general-domain web/books/code text; disjoint from WikiText-2 test
+  split: train
+  num_samples: 256
+  seq_len: 2048
+  seed: 0
+  packing: concat-and-chunk    # docs joined with EOS, cut into 2048-token blocks
+
+# Modules kept in BF16 for every method:
+#  - vision tower (text-only benchmark; also keeps checkpoints vLLM-loadable)
+#  - lm_head / embed_tokens (tied embeddings, 248k vocab)
+#  - Gated-DeltaNet in_proj_a / in_proj_b (32-wide outputs; fused as in_proj_ba in vLLM,
+#    too narrow for the Marlin W4 kernel tile)
+ignore:
+  - "re:.*visual.*"
+  - "re:.*lm_head"
+  - "re:.*embed_tokens$"
+  - "re:.*linear_attn\\.in_proj_a$"
+  - "re:.*linear_attn\\.in_proj_b$"
+
+w4:
+  num_bits: 4
+  group_size: 128
+
+methods:
+  rtn:
+    name: rtn-w4a16-g128
+    scheme: W4A16            # symmetric int4, group 128, min-max (absmax) scale, no data
+  gptq:
+    name: gptq-w4a16-g128-actorder
+    scheme: W4A16
+    actorder: group          # == AutoGPTQ desc_act=True (columns processed by descending H diag)
+    dampening_frac: 0.01
+    block_size: 128
+  awq:
+    name: awq-w4a16-g128
+    scheme: W4A16_ASYM       # AWQ's canonical asymmetric int4 w/ zero point
+    duo_scaling: true
+    n_grid: 20
+  hqq:
+    name: hqq-w4a16-g128
+    scheme: W4A16_ASYM
+    iters: 20                # half-quadratic proximal iterations (hqq default)
+    lp_norm: 0.7
+    beta: 10.0
+    kappa: 1.01
+    integer_zero: true       # see README: vLLM only loads integer zero points
+  autoround:
+    name: autoround-w4a16-g128
+    scheme: W4A16
+    iters: 200
+    batch_size: 8
+  int8:
+    name: int8-w8a8-smoothquant-gptq
+    scheme: W8A8             # int8 per-channel weights, dynamic per-token int8 activations
+    smoothing_strength: 0.8

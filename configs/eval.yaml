@@ -1,0 +1,33 @@
+# Identical evaluation settings for every checkpoint.
+vllm:
+  gpu_memory_utilization: 0.16   # reduced: Spark memory is shared with other tenants (see README)
+  max_model_len: 4096
+  max_num_seqs: 32
+  language_model_only: true       # text-only; vision tower not profiled
+  seed: 0
+
+ppl:
+  dataset: Salesforce/wikitext
+  config: wikitext-2-raw-v1
+  split: test
+  join: "\n\n"
+  context_length: 2048
+  stride: 2048                   # non-overlapping windows; first token of each window unscored
+
+lm_eval:
+  # Plain few-shot prompting (no chat template, no thinking) for all models.
+  tasks:
+    mmlu:          {num_fewshot: 5, limit: null}
+    gsm8k:         {num_fewshot: 5, limit: null}
+    arc_challenge: {num_fewshot: 0, limit: null}
+    hellaswag:     {num_fewshot: 0, limit: null}
+  batch_size: auto
+  seed: 1234
+
+bench:
+  port: 8100
+  input_len: 1024
+  output_len: 256
+  concurrency: [1, 8, 32]
+  num_prompts: {1: 16, 8: 64, 32: 128}
+  warmup_prompts: 8
