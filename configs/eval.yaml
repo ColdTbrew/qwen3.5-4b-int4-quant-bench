@@ -16,11 +16,15 @@ ppl:
 
 lm_eval:
   # Plain few-shot prompting (no chat template, no thinking) for all models.
+  # Consistent subsampling for ALL models (lm-eval takes the first N docs, so every
+  # model sees identical items). Full sets were ~4-6 h/model on the shared GB10
+  # (MMLU alone = 56k loglikelihood requests); see README "Limits".
+  # NOTE: for the mmlu group, limit applies per subject (57 subjects x 30 = 1,710 questions).
   tasks:
-    mmlu:          {num_fewshot: 0, limit: null}   # 0-shot: 5-shot prompt-logprob scoring over the 248k vocab was ~5 h/model on GB10
-    gsm8k:         {num_fewshot: 5, limit: null}
-    arc_challenge: {num_fewshot: 0, limit: null}
-    hellaswag:     {num_fewshot: 0, limit: null}
+    mmlu:          {num_fewshot: 0, limit: 30}     # 0-shot: 5-shot prompt-logprob scoring over the 248k vocab was ~5 h/model on GB10
+    gsm8k:         {num_fewshot: 5, limit: 250}
+    arc_challenge: {num_fewshot: 0, limit: null}   # full 1,172
+    hellaswag:     {num_fewshot: 0, limit: 1000}
   batch_size: auto
   seed: 1234
 

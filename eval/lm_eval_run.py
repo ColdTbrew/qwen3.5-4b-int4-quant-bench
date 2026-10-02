@@ -37,6 +37,9 @@ def main():
     for task in tasks:
         tcfg = lc["tasks"][task]
         limit = a.limit if a.limit is not None else tcfg.get("limit")
+        out = ROOT / "results" / "raw" / "lm_eval" / f"{a.model}{a.tag}" / f"{task}.json"
+        if out.exists() and json.load(open(out)).get("limit") == limit:
+            print(task, "exists, skipping"); continue
         t0 = time.perf_counter()
         r = lm_eval.simple_evaluate(
             model=lm,
@@ -58,7 +61,6 @@ def main():
         }
         all_res[task] = entry
         print(task, json.dumps(r["results"].get(task, {}), default=str))
-        out = ROOT / "results" / "raw" / "lm_eval" / f"{a.model}{a.tag}" / f"{task}.json"
         write_json(out, {"model": a.model, "path": me["resolved_path"], "task": task, **entry, "versions": versions()})
 
 
