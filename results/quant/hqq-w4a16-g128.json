@@ -1,0 +1,55 @@
+{
+  "method": "hqq",
+  "name": "hqq-w4a16-g128",
+  "model_id": "Qwen/Qwen3.5-4B",
+  "model_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "settings": {
+    "name": "hqq-w4a16-g128",
+    "scheme": "W4A16_ASYM",
+    "iters": 20,
+    "lp_norm": 0.7,
+    "beta": 10.0,
+    "kappa": 1.01,
+    "integer_zero": true
+  },
+  "group_size": 128,
+  "ignore": [
+    "re:.*visual.*",
+    "re:.*lm_head",
+    "re:.*embed_tokens$",
+    "re:.*linear_attn\\.in_proj_a$",
+    "re:.*linear_attn\\.in_proj_b$"
+  ],
+  "calibration": null,
+  "quant_seconds": 82.2,
+  "quant_seconds_breakdown": {
+    "param_init": 49.6,
+    "hqq_solver": 32.7
+  },
+  "peak_gpu_alloc_gib": 0.8,
+  "load_seconds": 5.8,
+  "layers_quantized": 200,
+  "reconstruction_mae_sampled": {
+    "rtn_asym": 0.0009458307445479127,
+    "hqq_float_zero": 0.0009463865918895373,
+    "hqq_int_zero": 0.0009458307176828384
+  },
+  "recipe": "config_groups=None targets=['Linear'] ignore=['re:.*visual.*', 're:.*lm_head', 're:.*embed_tokens$', 're:.*linear_attn\\\\.in_proj_a$', 're:.*linear_attn\\\\.in_proj_b$'] scheme='W4A16_ASYM' kv_cache_scheme=None weight_observer=None input_observer=None output_observer=None observer=None bypass_divisibility_checks=False requires_calibration_data=False index=None group=None start=None end=None update=None initialized_=True finalized_=True started_=True ended_=True + HQQ zero-point optimisation",
+  "save_seconds": 35.3,
+  "checkpoint_gib": 3.764,
+  "versions": {
+    "python": "3.12.14",
+    "machine": "aarch64",
+    "host": "gx10-a4ea",
+    "torch": "2.13.0",
+    "transformers": "5.17.0",
+    "llmcompressor": "0.14.0",
+    "compressed-tensors": "0.19.0",
+    "auto-round": "0.15.1",
+    "hqq": "0.2.8.post1",
+    "accelerate": "1.15.0",
+    "datasets": "5.0.1",
+    "gpu": "NVIDIA GB10",
+    "cuda": "13.0"
+  }
+}

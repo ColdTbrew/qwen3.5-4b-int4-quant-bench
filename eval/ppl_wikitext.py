@@ -67,3 +67,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # vLLM 0.30 engine teardown can abort (SIGABRT) after results are written; exit cleanly.
+    import os, sys
+    sys.stdout.flush(); sys.stderr.flush()
+    os._exit(0)
