@@ -1,0 +1,27 @@
+{
+  "model": "awq-w4a16-g128",
+  "path": "/home/coldbrew/llm/bench/qwen3.5-4b-int4-quant-bench/models/awq-w4a16-g128",
+  "ppl": 9.964958545892626,
+  "tokens_scored": 296815,
+  "windows": 145,
+  "dataset_tokens": 297193,
+  "settings": {
+    "dataset": "Salesforce/wikitext",
+    "config": "wikitext-2-raw-v1",
+    "split": "test",
+    "join": "\n\n",
+    "context_length": 2048,
+    "stride": 2048
+  },
+  "seconds": 210.5,
+  "versions": {
+    "python": "3.12.14",
+    "machine": "aarch64",
+    "vllm": "0.30.0",
+    "torch": "2.13.0",
+    "transformers": "5.18.0",
+    "lm_eval": "0.4.13",
+    "compressed-tensors": "0.17.0",
+    "flashinfer-python": "0.6.18.post1"
+  }
+}

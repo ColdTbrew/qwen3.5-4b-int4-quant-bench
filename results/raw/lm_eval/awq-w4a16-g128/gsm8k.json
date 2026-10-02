@@ -1,0 +1,35 @@
+{
+  "model": "awq-w4a16-g128",
+  "path": "/home/coldbrew/llm/bench/qwen3.5-4b-int4-quant-bench/models/awq-w4a16-g128",
+  "task": "gsm8k",
+  "results": {
+    "gsm8k": {
+      "name": "gsm8k",
+      "alias": "gsm8k",
+      "sample_len": 250,
+      "exact_match,strict-match": 0.764,
+      "exact_match_stderr,strict-match": 0.026909337594953835,
+      "exact_match,flexible-extract": 0.764,
+      "exact_match_stderr,flexible-extract": 0.026909337594953835
+    }
+  },
+  "n_samples": {
+    "gsm8k": {
+      "original": 1319,
+      "effective": 250
+    }
+  },
+  "num_fewshot": 5,
+  "limit": 250,
+  "seconds": 360.0,
+  "versions": {
+    "python": "3.12.14",
+    "machine": "aarch64",
+    "vllm": "0.30.0",
+    "torch": "2.13.0",
+    "transformers": "5.18.0",
+    "lm_eval": "0.4.13",
+    "compressed-tensors": "0.17.0",
+    "flashinfer-python": "0.6.18.post1"
+  }
+}

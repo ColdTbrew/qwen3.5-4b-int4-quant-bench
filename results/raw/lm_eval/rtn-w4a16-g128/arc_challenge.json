@@ -1,0 +1,35 @@
+{
+  "model": "rtn-w4a16-g128",
+  "path": "/home/coldbrew/llm/bench/qwen3.5-4b-int4-quant-bench/models/rtn-w4a16-g128",
+  "task": "arc_challenge",
+  "results": {
+    "arc_challenge": {
+      "name": "arc_challenge",
+      "alias": "arc_challenge",
+      "sample_len": 1172,
+      "acc,none": 0.4948805460750853,
+      "acc_stderr,none": 0.014610624890309135,
+      "acc_norm,none": 0.53839590443686,
+      "acc_norm_stderr,none": 0.014568245550296302
+    }
+  },
+  "n_samples": {
+    "arc_challenge": {
+      "original": 1172,
+      "effective": 1172
+    }
+  },
+  "num_fewshot": 0,
+  "limit": null,
+  "seconds": 201.5,
+  "versions": {
+    "python": "3.12.14",
+    "machine": "aarch64",
+    "vllm": "0.30.0",
+    "torch": "2.13.0",
+    "transformers": "5.18.0",
+    "lm_eval": "0.4.13",
+    "compressed-tensors": "0.17.0",
+    "flashinfer-python": "0.6.18.post1"
+  }
+}

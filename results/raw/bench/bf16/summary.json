@@ -1,0 +1,80 @@
+{
+  "model": "bf16",
+  "path": "Qwen/Qwen3.5-4B",
+  "settings": {
+    "port": 8100,
+    "input_len": 1024,
+    "output_len": 256,
+    "concurrency": [
+      1,
+      8,
+      32
+    ],
+    "num_prompts": {
+      "1": 16,
+      "8": 64,
+      "32": 128
+    },
+    "warmup_prompts": 8,
+    "vllm": {
+      "gpu_memory_utilization": 0.16,
+      "max_model_len": 4096,
+      "max_num_seqs": 32,
+      "language_model_only": true,
+      "seed": 0
+    }
+  },
+  "startup_seconds": 99.0,
+  "weights_gib": 7.99,
+  "kv_cache_gib": 8.91,
+  "gpu_mem_idle_mib": 17759,
+  "gpu_mem_peak_mib": 18021,
+  "by_concurrency": {
+    "1": {
+      "num_prompts": 16,
+      "mean_ttft_ms": 137.44173969098483,
+      "median_ttft_ms": 135.68386349652428,
+      "p99_ttft_ms": 194.31347627105424,
+      "mean_tpot_ms": 48.713978347551155,
+      "median_tpot_ms": 48.716728776515296,
+      "decode_tok_s_per_req": 20.527988760545767,
+      "output_throughput_tok_s": 20.38260522916545,
+      "total_token_throughput_tok_s": 101.91302614582725,
+      "request_throughput": 0.07961955167642754
+    },
+    "8": {
+      "num_prompts": 64,
+      "mean_ttft_ms": 590.9137312041821,
+      "median_ttft_ms": 560.6543434842024,
+      "p99_ttft_ms": 1038.838430464384,
+      "mean_tpot_ms": 44.66069844471598,
+      "median_tpot_ms": 44.58751383131397,
+      "decode_tok_s_per_req": 22.391051524594207,
+      "output_throughput_tok_s": 170.75534814546867,
+      "total_token_throughput_tok_s": 853.7767407273433,
+      "request_throughput": 0.667013078693237
+    },
+    "32": {
+      "num_prompts": 128,
+      "mean_ttft_ms": 1255.7520711882262,
+      "median_ttft_ms": 929.7150420024991,
+      "p99_ttft_ms": 3451.9305886517395,
+      "mean_tpot_ms": 66.85010725900342,
+      "median_tpot_ms": 65.316938098027,
+      "decode_tok_s_per_req": 14.958839125352625,
+      "output_throughput_tok_s": 444.5623466923978,
+      "total_token_throughput_tok_s": 2222.8117334619888,
+      "request_throughput": 1.736571666767179
+    }
+  },
+  "versions": {
+    "python": "3.12.14",
+    "machine": "aarch64",
+    "vllm": "0.30.0",
+    "torch": "2.13.0",
+    "transformers": "5.18.0",
+    "lm_eval": "0.4.13",
+    "compressed-tensors": "0.17.0",
+    "flashinfer-python": "0.6.18.post1"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "model": "int8-w8a8-smoothquant-gptq",
+  "path": "/home/coldbrew/llm/bench/qwen3.5-4b-int4-quant-bench/models/int8-w8a8-smoothquant-gptq",
+  "settings": {
+    "port": 8100,
+    "input_len": 1024,
+    "output_len": 256,
+    "concurrency": [
+      1,
+      8,
+      32
+    ],
+    "num_prompts": {
+      "1": 16,
+      "8": 64,
+      "32": 128
+    },
+    "warmup_prompts": 8,
+    "vllm": {
+      "gpu_memory_utilization": 0.16,
+      "max_model_len": 4096,
+      "max_num_seqs": 32,
+      "language_model_only": true,
+      "seed": 0
+    }
+  },
+  "startup_seconds": 90.0,
+  "weights_gib": 4.73,
+  "kv_cache_gib": 11.04,
+  "gpu_mem_idle_mib": 17799,
+  "gpu_mem_peak_mib": 17801,
+  "by_concurrency": {
+    "1": {
+      "num_prompts": 16,
+      "mean_ttft_ms": 163.25127075106138,
+      "median_ttft_ms": 163.73657350777648,
+      "p99_ttft_ms": 220.25504839548375,
+      "mean_tpot_ms": 26.087698935047158,
+      "median_tpot_ms": 26.067921794110944,
+      "decode_tok_s_per_req": 38.332242429268604,
+      "output_throughput_tok_s": 37.55956005826958,
+      "total_token_throughput_tok_s": 187.79780029134793,
+      "request_throughput": 0.14671703147761556
+    },
+    "8": {
+      "num_prompts": 64,
+      "mean_ttft_ms": 767.4431502350672,
+      "median_ttft_ms": 713.2107799989171,
+      "p99_ttft_ms": 1390.4666022837043,
+      "mean_tpot_ms": 30.64876102763425,
+      "median_tpot_ms": 30.542460600012348,
+      "decode_tok_s_per_req": 32.627746325483,
+      "output_throughput_tok_s": 238.37113908889287,
+      "total_token_throughput_tok_s": 1191.8556954444643,
+      "request_throughput": 0.9311372620659878
+    },
+    "32": {
+      "num_prompts": 128,
+      "mean_ttft_ms": 1589.507339296233,
+      "median_ttft_ms": 1209.0987259871326,
+      "p99_ttft_ms": 4289.28179124021,
+      "mean_tpot_ms": 55.10732123599672,
+      "median_tpot_ms": 52.4290080569164,
+      "decode_tok_s_per_req": 18.14640918068775,
+      "output_throughput_tok_s": 521.0386320480768,
+      "total_token_throughput_tok_s": 2605.193160240384,
+      "request_throughput": 2.0353071564378
+    }
+  },
+  "versions": {
+    "python": "3.12.14",
+    "machine": "aarch64",
+    "vllm": "0.30.0",
+    "torch": "2.13.0",
+    "transformers": "5.18.0",
+    "lm_eval": "0.4.13",
+    "compressed-tensors": "0.17.0",
+    "flashinfer-python": "0.6.18.post1"
+  }
+}

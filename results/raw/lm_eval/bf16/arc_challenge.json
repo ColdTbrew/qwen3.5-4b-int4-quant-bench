@@ -1,0 +1,35 @@
+{
+  "model": "bf16",
+  "path": "Qwen/Qwen3.5-4B",
+  "task": "arc_challenge",
+  "results": {
+    "arc_challenge": {
+      "name": "arc_challenge",
+      "alias": "arc_challenge",
+      "sample_len": 1172,
+      "acc,none": 0.5196245733788396,
+      "acc_stderr,none": 0.014600132075947018,
+      "acc_norm,none": 0.5435153583617748,
+      "acc_norm_stderr,none": 0.014555949760496543
+    }
+  },
+  "n_samples": {
+    "arc_challenge": {
+      "original": 1172,
+      "effective": 1172
+    }
+  },
+  "num_fewshot": 0,
+  "limit": null,
+  "seconds": 77.6,
+  "versions": {
+    "python": "3.12.14",
+    "machine": "aarch64",
+    "vllm": "0.30.0",
+    "torch": "2.13.0",
+    "transformers": "5.18.0",
+    "lm_eval": "0.4.13",
+    "compressed-tensors": "0.17.0",
+    "flashinfer-python": "0.6.18.post1"
+  }
+}

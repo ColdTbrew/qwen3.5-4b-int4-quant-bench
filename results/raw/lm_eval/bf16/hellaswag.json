@@ -1,0 +1,35 @@
+{
+  "model": "bf16",
+  "path": "Qwen/Qwen3.5-4B",
+  "task": "hellaswag",
+  "results": {
+    "hellaswag": {
+      "name": "hellaswag",
+      "alias": "hellaswag",
+      "sample_len": 1000,
+      "acc,none": 0.502,
+      "acc_stderr,none": 0.01581917337430266,
+      "acc_norm,none": 0.655,
+      "acc_norm_stderr,none": 0.015039986742055365
+    }
+  },
+  "n_samples": {
+    "hellaswag": {
+      "original": 10042,
+      "effective": 1000
+    }
+  },
+  "num_fewshot": 0,
+  "limit": 1000,
+  "seconds": 47.8,
+  "versions": {
+    "python": "3.12.14",
+    "machine": "aarch64",
+    "vllm": "0.30.0",
+    "torch": "2.13.0",
+    "transformers": "5.18.0",
+    "lm_eval": "0.4.13",
+    "compressed-tensors": "0.17.0",
+    "flashinfer-python": "0.6.18.post1"
+  }
+}

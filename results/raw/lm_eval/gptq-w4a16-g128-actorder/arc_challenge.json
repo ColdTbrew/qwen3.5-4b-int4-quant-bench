@@ -1,0 +1,35 @@
+{
+  "model": "gptq-w4a16-g128-actorder",
+  "path": "/home/coldbrew/llm/bench/qwen3.5-4b-int4-quant-bench/models/gptq-w4a16-g128-actorder",
+  "task": "arc_challenge",
+  "results": {
+    "arc_challenge": {
+      "name": "arc_challenge",
+      "alias": "arc_challenge",
+      "sample_len": 1172,
+      "acc,none": 0.5034129692832765,
+      "acc_stderr,none": 0.014611050403244159,
+      "acc_norm,none": 0.5281569965870307,
+      "acc_norm_stderr,none": 0.014588204105102335
+    }
+  },
+  "n_samples": {
+    "arc_challenge": {
+      "original": 1172,
+      "effective": 1172
+    }
+  },
+  "num_fewshot": 0,
+  "limit": null,
+  "seconds": 202.7,
+  "versions": {
+    "python": "3.12.14",
+    "machine": "aarch64",
+    "vllm": "0.30.0",
+    "torch": "2.13.0",
+    "transformers": "5.18.0",
+    "lm_eval": "0.4.13",
+    "compressed-tensors": "0.17.0",
+    "flashinfer-python": "0.6.18.post1"
+  }
+}
