@@ -6,7 +6,7 @@ import argparse
 import math
 import time
 
-from common import ROOT, eval_cfg, model_entry, versions, write_json
+from common import vllm_init_lock, ROOT, eval_cfg, model_entry, versions, write_json
 
 
 def main():
@@ -31,15 +31,16 @@ def main():
     if a.max_windows:
         windows = windows[: a.max_windows]
 
-    llm = LLM(
-        model=me["resolved_path"],
-        gpu_memory_utilization=vc["gpu_memory_utilization"],
-        max_model_len=max(vc["max_model_len"], L + 8),
-        max_num_seqs=4,  # prompt logprobs over a 248k vocab are memory hungry
-        language_model_only=vc["language_model_only"],
-        seed=vc["seed"],
-        enable_prefix_caching=False,
-    )
+    with vllm_init_lock():
+        llm = LLM(
+            model=me["resolved_path"],
+            gpu_memory_utilization=vc["gpu_memory_utilization"],
+            max_model_len=max(vc["max_model_len"], L + 8),
+            max_num_seqs=4,  # prompt logprobs over a 248k vocab are memory hungry
+            language_model_only=vc["language_model_only"],
+            seed=vc["seed"],
+            enable_prefix_caching=False,
+        )
     sp = SamplingParams(max_tokens=1, prompt_logprobs=0, temperature=0.0)
     t0 = time.perf_counter()
     outs = llm.generate([TokensPrompt(prompt_token_ids=w) for w in windows], sp)

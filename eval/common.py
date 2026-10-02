@@ -45,3 +45,25 @@ def versions() -> dict:
 def write_json(path: Path, obj) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(obj, indent=2, default=str))
+
+
+import contextlib
+import fcntl
+
+
+@contextlib.contextmanager
+def vllm_init_lock():
+    """Serialize vLLM engine start-up across concurrently running eval processes.
+
+    On GB10 unified memory, vLLM's start-up memory profiling fails ("No available
+    memory for the cache blocks" / "Error in memory profiling") when another engine
+    is profiling or allocating at the same moment. Engines run concurrently fine
+    once initialized, so only construction is serialized.
+    """
+    f = open("/tmp/qbench_vllm_init.lock", "w")
+    fcntl.flock(f, fcntl.LOCK_EX)
+    try:
+        yield
+    finally:
+        fcntl.flock(f, fcntl.LOCK_UN)
+        f.close()

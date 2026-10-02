@@ -6,7 +6,7 @@ import argparse
 import json
 import time
 
-from common import ROOT, eval_cfg, model_entry, versions, write_json
+from common import vllm_init_lock, ROOT, eval_cfg, model_entry, versions, write_json
 
 
 def main():
@@ -23,15 +23,16 @@ def main():
     import lm_eval
     from lm_eval.models.vllm_causallms import VLLM
 
-    lm = VLLM(
-        pretrained=me["resolved_path"],
-        gpu_memory_utilization=vc["gpu_memory_utilization"],
-        max_model_len=vc["max_model_len"],
-        max_num_seqs=vc["max_num_seqs"],
-        language_model_only=vc["language_model_only"],
-        seed=vc["seed"],
-        batch_size=lc["batch_size"],
-    )
+    with vllm_init_lock():
+        lm = VLLM(
+            pretrained=me["resolved_path"],
+            gpu_memory_utilization=vc["gpu_memory_utilization"],
+            max_model_len=vc["max_model_len"],
+            max_num_seqs=vc["max_num_seqs"],
+            language_model_only=vc["language_model_only"],
+            seed=vc["seed"],
+            batch_size=lc["batch_size"],
+        )
     tasks = a.tasks.split(",") if a.tasks else list(lc["tasks"])
     all_res = {}
     for task in tasks:
